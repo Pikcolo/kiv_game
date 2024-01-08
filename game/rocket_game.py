@@ -3,6 +3,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
 from kivy.core.window import Window
+from kivy.vector import Vector
 from kivy.clock import Clock
 
 class Game(FloatLayout):
