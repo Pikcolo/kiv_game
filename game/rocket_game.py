@@ -11,8 +11,9 @@ from kivy.vector import Vector
 from kivy.clock import Clock
 import random
 
-class Game(FloatLayout):
-    pass
+class Game(Widget):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 class RocketApp(App):
 
