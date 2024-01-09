@@ -9,14 +9,22 @@ from kivy.graphics import Rectangle
 from kivy.core.window import Window
 from kivy.vector import Vector
 from kivy.clock import Clock
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.properties import (
+    NumericProperty, ReferenceListProperty, ObjectProperty
+)
 import random
 
 class Game(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        with self.canvas:
+            self.player = Rectangle(source='player.png', pos=(550, 20), size=(100,
+            100))
+
+
 
 class RocketApp(App):
-
     def build(self):
         return Game()
 
