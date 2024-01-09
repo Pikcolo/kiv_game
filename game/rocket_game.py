@@ -19,10 +19,9 @@ class Game(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         with self.canvas:
+            Rectangle(source='background.jpg', pos=(0,0), size=(Window.width, Window.height))
             self.player = Rectangle(source='player.png', pos=(550, 20), size=(100,
             100))
-
-
 
 class RocketApp(App):
     def build(self):
