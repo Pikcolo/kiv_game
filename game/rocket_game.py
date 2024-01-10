@@ -18,7 +18,12 @@ import random
 class Game(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        
+        self._keyboard = Window.request_keyboard(
+        self._on_keyboard_closed, self)
+        self._keyboard.bind(on_key_down=self._on_key_down)
+        self._keyboard.bind(on_key_up=self._on_key_up)
+        self.pressed_keys = set()
+        Clock.schedule_interval(self.move_step, 0)
         with self.canvas:
             Rectangle(source='background.jpg', pos=(0,0), size=(Window.width, Window.height))
             self.player = Rectangle(source='player.png', pos=(550, 20), size=(100,
@@ -40,17 +45,17 @@ class Game(Widget):
         if text in self.pressed_keys:
             self.pressed_keys.remove(text)
 
-        def move_step(self, dt):
-            cur_x = self.hero.pos[0]
-            cur_y = self.hero.pos[1]
-            step = 1000 * dt
+    def move_step(self, dt):
+        cur_x = self.hero.pos[0]
+        cur_y = self.hero.pos[1]
+        step = 1000 * dt
 
-            if 'a' in self.pressed_keys:
-                cur_x -= step
-            if 'd' in self.pressed_keys:
-                cur_x += step
-            self.hero.pos = (cur_x, cur_y)
-            
+        if 'a' in self.pressed_keys:
+            cur_x -= step
+        if 'd' in self.pressed_keys:
+            cur_x += step
+        self.hero.pos = (cur_x, cur_y)
+
 class RocketApp(App):
     def build(self):
         return Game()
