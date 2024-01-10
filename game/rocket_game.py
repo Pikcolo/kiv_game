@@ -22,7 +22,22 @@ class Game(Widget):
             Rectangle(source='background.jpg', pos=(0,0), size=(Window.width, Window.height))
             self.player = Rectangle(source='player.png', pos=(550, 20), size=(100,
             100))
+    
+    def _on_keyboard_closed(self):
+        self._keyboard.unbind(on_key_down=self._on_key_down)
+        self._keyboard.unbind(on_key_up=self._on_key_up)
+        self._keyboard = None
+    
+    def _on_key_down(self, keyboard, keycode, text, modifiers):
+        print('down', text)
+        self.pressed_keys.add(text)
+    
+    def _on_key_up(self, keyboard, keycode):
+        text = keycode[1]
+        print('up', text)
 
+        if text in self.pressed_keys:
+            self.pressed_keys.remove(text)
 class RocketApp(App):
     def build(self):
         return Game()
