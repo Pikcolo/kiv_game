@@ -46,15 +46,15 @@ class Game(Widget):
             self.pressed_keys.remove(text)
 
     def move_step(self, dt):
-        cur_x = self.hero.pos[0]
-        cur_y = self.hero.pos[1]
+        cur_x = self.player.pos[0]
+        cur_y = self.player.pos[1]
         step = 1000 * dt
 
         if 'a' in self.pressed_keys:
             cur_x -= step
         if 'd' in self.pressed_keys:
             cur_x += step
-        self.hero.pos = (cur_x, cur_y)
+        self.player.pos = (cur_x, cur_y)
 
 class RocketApp(App):
     def build(self):
