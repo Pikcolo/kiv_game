@@ -56,6 +56,14 @@ class Game(Widget):
             cur_x += step
         self.player.pos = (cur_x, cur_y)
 
+class Entity(object):
+    def __init__(self):
+        self._pos = (0, 0)
+        self._size = (100, 100)
+        self._source = "bullet.png"
+        self._instruction = Rectangle(
+            pos=self._pos, size=self._size, source=self._source)
+        
 class RocketApp(App):
     def build(self):
         return Game()
