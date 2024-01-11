@@ -55,10 +55,10 @@ class GameWidget(Widget):
         self._background.pos = (0, 0)
         self._background.size = (self.width, self.height)  
 
-    # **ปรับจำนวนการ spawn ศัตรู
+
     def spawn_enemies(self, dt):
         for i in range(2):
-            random_x = random.randint(0, Window.width)
+            random_x = random.randint(0, Window.width - 100)
             y = Window.height
             random_speed = random.randint(40, 80)
             self.add_entity(Enemy((random_x, y), random_speed))
@@ -222,7 +222,6 @@ class Enemy(Entity):
                 game.score -= 1
                 return
 
-        # move
         step_size = self._speed * dt
         new_x = self.pos[0]
         new_y = self.pos[1] - step_size
@@ -276,15 +275,11 @@ class Player(Entity):
         self.pos = (newx, newy)
         if newx < 0:
             newx = 0
-        elif newx > Window.width:
-            newx = Window.width
-
-        if newx > Window.width:
-            newx = Window.width
-
+        elif newx > Window.width - self.size[0]:
+            newx = Window.width - self.size[0]
 
         self.pos = (newx, newy)
-
+        
 game = GameWidget()
 game.player = Player()
 game.player.pos = (Window.width - Window.width/1.75, 0)
@@ -292,6 +287,7 @@ game.add_entity(game.player)
 
 class RocketApp(App):
     def build(self):
+        Window.size = (800, 600) 
         return game
 
 if __name__ == "__main__":
