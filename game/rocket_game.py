@@ -47,12 +47,15 @@ class GameWidget(Widget):
         # self.sound.play()
         Clock.schedule_interval(self.spawn_enemies, 5)
     
+        Clock.schedule_interval(self.spawn_enemies, 5)
+    
     def _update_size(self, instance, value):
         self._score_instruction.pos = (0, self.height - 50)
         self._score_instruction.size = self._score_label.texture.size
         self._background.pos = (0, 0)
-        self._background.size = (self.width, self.height) 
+        self._background.size = (self.width, self.height)  
 
+    # **ปรับจำนวนการ spawn ศัตรู
     def spawn_enemies(self, dt):
         for i in range(2):
             random_x = random.randint(0, Window.width)
@@ -65,7 +68,7 @@ class GameWidget(Widget):
 
     def on_frame(self, dt):
         pass
-    
+
     @property
     def score(self):
         return self._score
@@ -101,7 +104,7 @@ class GameWidget(Widget):
             return True
         else:
             return False
-    
+
     def colliding_entities(self, entity):
         result = set()
         for e in self._entities:
@@ -275,14 +278,14 @@ class Player(Entity):
 
         self.pos = (newx, newy)
 
-game = Game()
+game = GameWidget()
 game.player = Player()
 game.player.pos = (Window.width - Window.width/1.75, 0)
 game.add_entity(game.player)
 
 class RocketApp(App):
     def build(self):
-        return Game()
+        return game()
 
 if __name__ == "__main__":
     RocketApp().run()
