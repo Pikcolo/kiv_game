@@ -49,7 +49,20 @@ class Game(Widget):
         self._score_instruction.pos = (0, self.height - 50)
         self._score_instruction.size = self._score_label.texture.size
         self._background.pos = (0, 0)
-        self._background.size = (self.width, self.height)  
+        self._background.size = (self.width, self.height) 
+
+    def spawn_enemies(self, dt):
+        for i in range(2):
+            random_x = random.randint(0, Window.width)
+            y = Window.height
+            random_speed = random.randint(40, 80)
+            self.add_entity(Enemy((random_x, y), random_speed))
+
+    def _on_frame(self, dt):
+        self.dispatch("on_frame", dt)
+
+    def on_frame(self, dt):
+        pass
 
 class Entity(object):
     def __init__(self):
