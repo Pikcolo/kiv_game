@@ -99,6 +99,19 @@ class Game(Widget):
             return True
         else:
             return False
+        
+    def _on_keyboard_closed(self):
+        self._keyboard.unbind(on_key_down=self._on_key_down)
+        self._keyboard.unbind(on_key_up=self._on_key_up)
+        self._keyboard = None
+
+    def _on_key_down(self, keyboard, keycode, text, modifiers):
+        self.keysPressed.add(keycode[1])
+
+    def _on_key_up(self, keyboard, keycode):
+        text = keycode[1]
+        if text in self.keysPressed:
+            self.keysPressed.remove(text)
 
 class Entity(object):
     def __init__(self):
