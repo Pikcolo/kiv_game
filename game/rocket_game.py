@@ -13,48 +13,43 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import (
     NumericProperty, ReferenceListProperty, ObjectProperty
 )
+from kivy.uix.label import CoreLabel
 import random
 
 class Game(Widget):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self._keyboard = Window.request_keyboard(
-        self._on_keyboard_closed, self)
+        self.bind(size=self._update_size)
+
+        self._keyboard = Window.request_keyboard(self._on_keyboard_closed, self)
         self._keyboard.bind(on_key_down=self._on_key_down)
         self._keyboard.bind(on_key_up=self._on_key_up)
-        self.pressed_keys = set()
-        Clock.schedule_interval(self.move_step, 0)
+
+        self._score_label = CoreLabel(text="Score: 0",font_size=35)
+        self._score_label.refresh()
+        self._score = 0
+
+        self.register_event_type("on_frame")
+        
         with self.canvas:
-            Rectangle(source='background.jpg', pos=(0,0), size=(Window.width, Window.height))
-            self.player = Rectangle(source='player.png', pos=(550, 20), size=(100,
-            100))
-    
-    def _on_keyboard_closed(self):
-        self._keyboard.unbind(on_key_down=self._on_key_down)
-        self._keyboard.unbind(on_key_up=self._on_key_up)
-        self._keyboard = None
-    
-    def _on_key_down(self, keyboard, keycode, text, modifiers):
-        print('down', text)
-        self.pressed_keys.add(text)
-    
-    def _on_key_up(self, keyboard, keycode):
-        text = keycode[1]
-        print('up', text)
+            self._background = Rectangle(source="background.jpg", pos=(0, 0),
+                    size=(Window.width, Window.height))
+            self._score_instruction = Rectangle(texture=self._score_label.texture, 
+                    pos=(0, Window.height - 50), size=self._score_label.texture.size)
 
-        if text in self.pressed_keys:
-            self.pressed_keys.remove(text)
+        self.keysPressed = set()
+        self._entities = set()
 
-    def move_step(self, dt):
-        cur_x = self.player.pos[0]
-        cur_y = self.player.pos[1]
-        step = 1000 * dt
+        Clock.schedule_interval(self._on_frame, 0)
 
-        if 'a' in self.pressed_keys:
-            cur_x -= step
-        if 'd' in self.pressed_keys:
-            cur_x += step
-        self.player.pos = (cur_x, cur_y)
+        # self.sound = SoundLoader.load("")
+        # self.sound.play()
+        Clock.schedule_interval(self.spawn_enemies, 5)
+    
+    def _update_size(self, instance, value):
+        self._score_instruction.pos = (0, self.height - 50)
+        self._score_instruction.size = self._score_label.texture.size
+        self._background.pos = (0, 0)
+        self._background.size = (self.width, self.height)  
 
 class Entity(object):
     def __init__(self):
@@ -94,7 +89,7 @@ class Entity(object):
 class Bullet(Entity):
     def __init__(self, pos, speed=500):
         super().__init__()
-        # sound = SoundLoader.load("assets/bullet.wav")
+        # sound = SoundLoader.load()
         # sound.play()
         self._speed = speed
         self.pos = pos
@@ -105,7 +100,7 @@ class Bullet(Entity):
         game.unbind(on_frame=self.move_step)
 
     def move_step(self, sender, dt):
-        # check for collision/out of bounds
+    
         if self.pos[1] > Window.height:
             self.stop_callbacks()
             game.remove_entity(self)
@@ -119,7 +114,6 @@ class Bullet(Entity):
                 game.remove_entity(e)
                 game.score += 1
                 return
-        # move
         step_size = self._speed * dt
         new_x = self.pos[0]
         new_y = self.pos[1] + step_size
@@ -137,7 +131,7 @@ class Enemy(Entity):
         game.unbind(on_frame=self.move_step)
 
     def move_step(self, sender, dt):
-        # check for collision/out of bounds
+
         if self.pos[1] < 0:
             self.stop_callbacks()
             game.remove_entity(self)
@@ -161,7 +155,7 @@ class Explosion(Entity):
     def __init__(self, pos):
         super().__init__()
         self.pos = pos
-        # sound = SoundLoader.load("assets/explosion.wav")
+        # sound = SoundLoader.load()
         self.source = "explode.png"
         # sound.play()
         Clock.schedule_once(self._remove_me, 0.1)
@@ -192,7 +186,7 @@ class Player(Entity):
             game.add_entity(Bullet((x, y)))
 
     def move_step(self, sender, dt):
-        # move
+
         step_size = 1000 * dt
         newx = self.pos[0]
         newy = self.pos[1]
@@ -209,7 +203,6 @@ class Player(Entity):
         if newx > Window.width:
             newx = Window.width
 
-        # ปรับตำแหน่งของ player
         self.pos = (newx, newy)
 
 class RocketApp(App):
