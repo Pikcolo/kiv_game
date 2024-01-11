@@ -100,7 +100,7 @@ class Bullet(Entity):
         self.pos = pos
         self.source = "bullet.png"
         game.bind(on_frame=self.move_step)
-        
+
     def stop_callbacks(self):
         game.unbind(on_frame=self.move_step)
 
@@ -123,6 +123,38 @@ class Bullet(Entity):
         step_size = self._speed * dt
         new_x = self.pos[0]
         new_y = self.pos[1] + step_size
+        self.pos = (new_x, new_y)
+
+class Enemy(Entity):
+    def __init__(self, pos, speed=100):
+        super().__init__()
+        self._speed = speed
+        self.pos = pos
+        self.source = "enemy.png"
+        game.bind(on_frame=self.move_step)
+
+    def stop_callbacks(self):
+        game.unbind(on_frame=self.move_step)
+
+    def move_step(self, sender, dt):
+        # check for collision/out of bounds
+        if self.pos[1] < 0:
+            self.stop_callbacks()
+            game.remove_entity(self)
+            game.score -= 1
+            return
+        for e in game.colliding_entities(self):
+            if e == game.player:
+                game.add_entity(Explosion(self.pos))
+                self.stop_callbacks()
+                game.remove_entity(self)
+                game.score -= 1
+                return
+
+        # move
+        step_size = self._speed * dt
+        new_x = self.pos[0]
+        new_y = self.pos[1] - step_size
         self.pos = (new_x, new_y)
 
         
