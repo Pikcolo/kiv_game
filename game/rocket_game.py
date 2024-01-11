@@ -85,6 +85,21 @@ class Game(Widget):
             self._entities.remove(entity)
             self.canvas.remove(entity._instruction)
 
+    def collides(self, e1, e2):
+        r1x = e1.pos[0]
+        r1y = e1.pos[1]
+        r2x = e2.pos[0]
+        r2y = e2.pos[1]
+        r1w = e1.size[0]
+        r1h = e1.size[1]
+        r2w = e2.size[0]
+        r2h = e2.size[1]
+
+        if (r1x < r2x + r2w and r1x + r1w > r2x and r1y < r2y + r2h and r1y + r1h > r2y):
+            return True
+        else:
+            return False
+
 class Entity(object):
     def __init__(self):
         self._pos = (0, 0)
