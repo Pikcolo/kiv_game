@@ -101,6 +101,31 @@ class Bullet(Entity):
         self.source = "bullet.png"
         game.bind(on_frame=self.move_step)
         
+    def stop_callbacks(self):
+        game.unbind(on_frame=self.move_step)
+
+    def move_step(self, sender, dt):
+        # check for collision/out of bounds
+        if self.pos[1] > Window.height:
+            self.stop_callbacks()
+            game.remove_entity(self)
+            return
+        for e in game.colliding_entities(self):
+            if isinstance(e, Enemy):
+                game.add_entity(Explosion(self.pos))
+                self.stop_callbacks()
+                game.remove_entity(self)
+                e.stop_callbacks()
+                game.remove_entity(e)
+                game.score += 1
+                return
+        # move
+        step_size = self._speed * dt
+        new_x = self.pos[0]
+        new_y = self.pos[1] + step_size
+        self.pos = (new_x, new_y)
+
+        
 class RocketApp(App):
     def build(self):
         return Game()
