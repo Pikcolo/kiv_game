@@ -172,7 +172,46 @@ class Explosion(Entity):
 
 done = False
 
-        
+class Player(Entity):
+    def __init__(self):
+        super().__init__()
+        self.source = "player.png"
+        game.bind(on_frame=self.move_step)
+        self._shoot_event = Clock.schedule_interval(self.shoot_step, 0.2)
+        self.pos = (400, 0)
+
+    def stop_callbacks(self):
+        game.unbind(on_frame=self.move_step)
+        self._shoot_event.cancel()
+
+    def shoot_step(self, dt):
+        # shoot
+        if "spacebar" in game.keysPressed:
+            x = self.pos[0]
+            y = self.pos[1] + 50
+            game.add_entity(Bullet((x, y)))
+
+    def move_step(self, sender, dt):
+        # move
+        step_size = 1000 * dt
+        newx = self.pos[0]
+        newy = self.pos[1]
+        if "a" in game.keysPressed:
+            newx -= step_size
+        if "d" in game.keysPressed:
+            newx += step_size
+        self.pos = (newx, newy)
+        if newx < 0:
+            newx = 0
+        elif newx > Window.width:
+            newx = Window.width
+
+        if newx > Window.width:
+            newx = Window.width
+
+        # ปรับตำแหน่งของ player
+        self.pos = (newx, newy)
+
 class RocketApp(App):
     def build(self):
         return Game()
