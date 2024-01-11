@@ -16,8 +16,10 @@ from kivy.properties import (
 from kivy.uix.label import CoreLabel
 import random
 
-class Game(Widget):
+class GameWidget(Widget):
     def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
         self.bind(size=self._update_size)
 
         self._keyboard = Window.request_keyboard(self._on_keyboard_closed, self)
@@ -41,7 +43,7 @@ class Game(Widget):
 
         Clock.schedule_interval(self._on_frame, 0)
 
-        # self.sound = SoundLoader.load("")
+        # self.sound = SoundLoader.load()
         # self.sound.play()
         Clock.schedule_interval(self.spawn_enemies, 5)
     
@@ -99,6 +101,13 @@ class Game(Widget):
             return True
         else:
             return False
+    
+    def colliding_entities(self, entity):
+        result = set()
+        for e in self._entities:
+            if self.collides(e, entity) and e != entity:
+                result.add(e)
+        return result
         
     def _on_keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_key_down)
@@ -207,7 +216,6 @@ class Enemy(Entity):
                 game.score -= 1
                 return
 
-        # move
         step_size = self._speed * dt
         new_x = self.pos[0]
         new_y = self.pos[1] - step_size
@@ -266,6 +274,11 @@ class Player(Entity):
             newx = Window.width
 
         self.pos = (newx, newy)
+
+game = Game()
+game.player = Player()
+game.player.pos = (Window.width - Window.width/1.75, 0)
+game.add_entity(game.player)
 
 class RocketApp(App):
     def build(self):
