@@ -157,6 +157,21 @@ class Enemy(Entity):
         new_y = self.pos[1] - step_size
         self.pos = (new_x, new_y)
 
+class Explosion(Entity):
+    def __init__(self, pos):
+        super().__init__()
+        self.pos = pos
+        # sound = SoundLoader.load("assets/explosion.wav")
+        self.source = "explode.png"
+        # sound.play()
+        Clock.schedule_once(self._remove_me, 0.1)
+
+    def _remove_me(self, dt):
+        game.remove_entity(self)
+
+
+done = False
+
         
 class RocketApp(App):
     def build(self):
