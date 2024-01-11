@@ -105,13 +105,6 @@ class GameWidget(Widget):
         else:
             return False
 
-    def colliding_entities(self, entity):
-        result = set()
-        for e in self._entities:
-            if self.collides(e, entity) and e != entity:
-                result.add(e)
-        return result
-        
     def _on_keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_key_down)
         self._keyboard.unbind(on_key_up=self._on_key_up)
