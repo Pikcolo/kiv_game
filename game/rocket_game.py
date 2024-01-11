@@ -33,7 +33,7 @@ class GameWidget(Widget):
         self.register_event_type("on_frame")
         
         with self.canvas:
-            self._background = Rectangle(source="background.jpg", pos=(0, 0),
+            self._background = Rectangle(source="img/background.jpg", pos=(0, 0),
                     size=(Window.width, Window.height))
             self._score_instruction = Rectangle(texture=self._score_label.texture, 
                     pos=(0, Window.height - 50), size=self._score_label.texture.size)
@@ -129,7 +129,7 @@ class Entity(object):
     def __init__(self):
         self._pos = (0, 0)
         self._size = (100, 100)
-        self._source = "bullet.png"
+        self._source = "img/bullet.png"
         self._instruction = Rectangle(
             pos=self._pos, size=self._size, source=self._source)
 
@@ -168,7 +168,7 @@ class Bullet(Entity):
         # sound.play()
         self._speed = speed
         self.pos = pos
-        self.source = "bullet.png"
+        self.source = "img/bullet.png"
         game.bind(on_frame=self.move_step)
 
     def stop_callbacks(self):
@@ -201,7 +201,7 @@ class Enemy(Entity):
         super().__init__()
         self._speed = speed
         self.pos = pos
-        self.source = "enemy.png"
+        self.source = "img/enemy.png"
         game.bind(on_frame=self.move_step)
 
     def stop_callbacks(self):
@@ -233,7 +233,7 @@ class Explosion(Entity):
         super().__init__()
         self.pos = pos
         # sound = SoundLoader.load("")
-        self.source = "explode.png"
+        self.source = "img/explode.png"
         # sound.play()
         Clock.schedule_once(self._remove_me, 0.1)
 
@@ -247,7 +247,7 @@ done = False
 class Player(Entity):
     def __init__(self):
         super().__init__()
-        self.source = "player.png"
+        self.source = "img/player.png"
         game.bind(on_frame=self.move_step)
         self._shoot_event = Clock.schedule_interval(self.shoot_step, 0.2)
         self.pos = (400, 0)
@@ -279,7 +279,7 @@ class Player(Entity):
             newx = Window.width - self.size[0]
 
         self.pos = (newx, newy)
-        
+
 game = GameWidget()
 game.player = Player()
 game.player.pos = (Window.width - Window.width/1.75, 0)
@@ -287,7 +287,6 @@ game.add_entity(game.player)
 
 class RocketApp(App):
     def build(self):
-        Window.size = (800, 600) 
         return game
 
 if __name__ == "__main__":
