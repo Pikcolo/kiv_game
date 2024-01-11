@@ -125,7 +125,7 @@ class Entity(object):
         self._source = "bullet.png"
         self._instruction = Rectangle(
             pos=self._pos, size=self._size, source=self._source)
-        
+
     @property
     def pos(self):
         return self._pos
@@ -153,10 +153,11 @@ class Entity(object):
         self._source = value
         self._instruction.source = self._source
 
+
 class Bullet(Entity):
     def __init__(self, pos, speed=500):
         super().__init__()
-        # sound = SoundLoader.load()
+        # sound = SoundLoader.load("assets/bullet.wav")
         # sound.play()
         self._speed = speed
         self.pos = pos
@@ -167,7 +168,7 @@ class Bullet(Entity):
         game.unbind(on_frame=self.move_step)
 
     def move_step(self, sender, dt):
-    
+        # check for collision/out of bounds
         if self.pos[1] > Window.height:
             self.stop_callbacks()
             game.remove_entity(self)
@@ -181,10 +182,12 @@ class Bullet(Entity):
                 game.remove_entity(e)
                 game.score += 1
                 return
+        # move
         step_size = self._speed * dt
         new_x = self.pos[0]
         new_y = self.pos[1] + step_size
         self.pos = (new_x, new_y)
+
 
 class Enemy(Entity):
     def __init__(self, pos, speed=100):
