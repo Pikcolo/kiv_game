@@ -104,6 +104,13 @@ class GameWidget(Widget):
             return True
         else:
             return False
+        
+    def colliding_entities(self, entity):
+        result = set()
+        for e in self._entities:
+            if self.collides(e, entity) and e != entity:
+                result.add(e)
+        return result
 
     def _on_keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_key_down)
@@ -157,7 +164,7 @@ class Entity(object):
 class Bullet(Entity):
     def __init__(self, pos, speed=500):
         super().__init__()
-        # sound = SoundLoader.load("assets/bullet.wav")
+        # sound = SoundLoader.load("")
         # sound.play()
         self._speed = speed
         self.pos = pos
@@ -168,7 +175,7 @@ class Bullet(Entity):
         game.unbind(on_frame=self.move_step)
 
     def move_step(self, sender, dt):
-        # check for collision/out of bounds
+
         if self.pos[1] > Window.height:
             self.stop_callbacks()
             game.remove_entity(self)
@@ -182,7 +189,7 @@ class Bullet(Entity):
                 game.remove_entity(e)
                 game.score += 1
                 return
-        # move
+
         step_size = self._speed * dt
         new_x = self.pos[0]
         new_y = self.pos[1] + step_size
@@ -215,16 +222,18 @@ class Enemy(Entity):
                 game.score -= 1
                 return
 
+        # move
         step_size = self._speed * dt
         new_x = self.pos[0]
         new_y = self.pos[1] - step_size
         self.pos = (new_x, new_y)
 
+
 class Explosion(Entity):
     def __init__(self, pos):
         super().__init__()
         self.pos = pos
-        # sound = SoundLoader.load()
+        # sound = SoundLoader.load("")
         self.source = "explode.png"
         # sound.play()
         Clock.schedule_once(self._remove_me, 0.1)
@@ -234,6 +243,7 @@ class Explosion(Entity):
 
 
 done = False
+
 
 class Player(Entity):
     def __init__(self):
@@ -255,7 +265,7 @@ class Player(Entity):
             game.add_entity(Bullet((x, y)))
 
     def move_step(self, sender, dt):
-
+        # move
         step_size = 1000 * dt
         newx = self.pos[0]
         newy = self.pos[1]
@@ -272,6 +282,7 @@ class Player(Entity):
         if newx > Window.width:
             newx = Window.width
 
+
         self.pos = (newx, newy)
 
 game = GameWidget()
@@ -281,7 +292,7 @@ game.add_entity(game.player)
 
 class RocketApp(App):
     def build(self):
-        return game()
+        return game
 
 if __name__ == "__main__":
     RocketApp().run()
