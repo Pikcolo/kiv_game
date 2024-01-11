@@ -63,6 +63,27 @@ class Game(Widget):
 
     def on_frame(self, dt):
         pass
+    
+    @property
+    def score(self):
+        return self._score
+
+    @score.setter
+    def score(self, value):
+        self._score = value
+        self._score_label.text = "Score: " + str(value)
+        self._score_label.refresh()
+        self._score_instruction.texture = self._score_label.texture
+        self._score_instruction.size = self._score_label.texture.size
+
+    def add_entity(self, entity):
+        self._entities.add(entity)
+        self.canvas.add(entity._instruction)
+
+    def remove_entity(self, entity):
+        if entity in self._entities:
+            self._entities.remove(entity)
+            self.canvas.remove(entity._instruction)
 
 class Entity(object):
     def __init__(self):
