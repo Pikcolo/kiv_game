@@ -90,6 +90,16 @@ class Entity(object):
     def source(self, value):
         self._source = value
         self._instruction.source = self._source
+
+class Bullet(Entity):
+    def __init__(self, pos, speed=500):
+        super().__init__()
+        # sound = SoundLoader.load("assets/bullet.wav")
+        # sound.play()
+        self._speed = speed
+        self.pos = pos
+        self.source = "bullet.png"
+        game.bind(on_frame=self.move_step)
         
 class RocketApp(App):
     def build(self):
