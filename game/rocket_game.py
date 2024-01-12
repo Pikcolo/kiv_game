@@ -4,15 +4,14 @@ from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
-from kivy.uix.image import Image
 from kivy.graphics import Rectangle
 from kivy.core.window import Window
-from kivy.vector import Vector
 from kivy.clock import Clock
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import (
     NumericProperty, ReferenceListProperty, ObjectProperty
 )
+from kivy.core.audio import SoundLoader
 from kivy.uix.label import CoreLabel
 import random
 
@@ -47,8 +46,6 @@ class GameWidget(Widget):
         # self.sound.play()
         Clock.schedule_interval(self.spawn_enemies, 5)
     
-        Clock.schedule_interval(self.spawn_enemies, 5)
-    
     def _update_size(self, instance, value):
         self._score_instruction.pos = (0, self.height - 50)
         self._score_instruction.size = self._score_label.texture.size
@@ -57,10 +54,10 @@ class GameWidget(Widget):
 
 
     def spawn_enemies(self, dt):
-        for i in range(2):
+        for i in range(3):
             random_x = random.randint(0, Window.width - 100)
             y = Window.height
-            random_speed = random.randint(40, 80)
+            random_speed = random.randint(60, 100)
             self.add_entity(Enemy((random_x, y), random_speed))
 
     def _on_frame(self, dt):
@@ -164,8 +161,8 @@ class Entity(object):
 class Bullet(Entity):
     def __init__(self, pos, speed=500):
         super().__init__()
-        # sound = SoundLoader.load("")
-        # sound.play()
+        sound = SoundLoader.load("sound/bullet_sound.mp3")
+        sound.play()
         self._speed = speed
         self.pos = pos
         self.source = "img/bullet.png"
@@ -249,7 +246,7 @@ class Player(Entity):
         super().__init__()
         self.source = "img/player.png"
         game.bind(on_frame=self.move_step)
-        self._shoot_event = Clock.schedule_interval(self.shoot_step, 0.2)
+        self._shoot_event = Clock.schedule_interval(self.shoot_step, 0.3)
         self.pos = (400, 0)
 
     def stop_callbacks(self):
