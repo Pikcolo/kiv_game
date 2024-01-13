@@ -142,6 +142,7 @@ class GameWidget(Widget):
             self._entities.remove(entity)
             self.canvas.remove(entity._instruction)
 
+
     def collides(self, e1, e2):
         r1x = e1.pos[0]
         r1y = e1.pos[1]
