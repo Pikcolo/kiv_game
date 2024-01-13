@@ -62,6 +62,7 @@ class GameWidget(Widget):
 
         self.sound = SoundLoader.load("sound/bg_song.mp3")
         self.sound.play()
+
         Clock.schedule_interval(self.spawn_enemies, 5)
 
         Clock.schedule_interval(self._update_time, 1)
@@ -81,6 +82,11 @@ class GameWidget(Widget):
             y = Window.height
             random_speed = random.randint(60, 100)
             self.add_entity(Enemy((random_x, y), random_speed))
+
+            random_x = random.randint(0, Window.width - 100)
+            y = Window.height
+            random_speed = random.randint(60, 100)
+            self.add_entity(Coin((random_x, y)))
 
     def _on_frame(self, dt):
         self.dispatch("on_frame", dt)
@@ -228,7 +234,6 @@ class Bullet(Entity):
         game.unbind(on_frame=self.move_step)
 
     def move_step(self, sender, dt):
-
         if self.pos[1] > Window.height:
             self.stop_callbacks()
             game.remove_entity(self)
@@ -242,6 +247,20 @@ class Bullet(Entity):
                 game.remove_entity(e)
                 game.score += 1
                 return
+            
+            elif isinstance(e, Coin): 
+                game.add_entity(Explosion(self.pos))
+                self.stop_callbacks()
+                game.remove_entity(self)
+                e.stop_callbacks() 
+                game.remove_entity(self)
+                game.score += 2  
+                return
+
+        step_size = self._speed * dt
+        new_x = self.pos[0]
+        new_y = self.pos[1] + step_size
+        self.pos = (new_x, new_y)
 
         step_size = self._speed * dt
         new_x = self.pos[0]
@@ -312,11 +331,23 @@ class Coin(Entity):
             self.stop_callbacks()
             game.remove_entity(self)
             return
+        
         for e in game.colliding_entities(self):
             if e == game.player:
+                game.add_entity(Explosion(self.pos))
+                self.stop_callbacks()
                 game.remove_entity(self)
                 game.score += 2  # เพิ่มคะแนนเมื่อยิงเหรียญได้
                 return
+
+            elif isinstance(e, Bullet) and e in game.colliding_entities(self):
+                game.add_entity(Explosion(self.pos))
+                self.stop_callbacks()
+                game.remove_entity(self)
+                game.remove_entity(e)  
+                game.score += 2  
+                return
+            
 
         step_size = self._speed * dt
         new_x = self.pos[0]
