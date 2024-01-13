@@ -1,18 +1,15 @@
 from kivy.app import App
-from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.label import Label
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
-from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.graphics import Rectangle
 from kivy.core.window import Window
 from kivy.clock import Clock
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.properties import (
-    NumericProperty, ReferenceListProperty, ObjectProperty
-)
-from kivy.uix.label import Label
+from kivy.uix.label import CoreLabel
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.popup import Popup
+from kivy.uix.textinput import TextInput
 from kivy.core.audio import SoundLoader
 from kivy.uix.label import CoreLabel
 import random
@@ -122,6 +119,8 @@ class GameWidget(Widget):
                     Window.height / 2 - message_label.texture.size[1] / 2),
                 size=message_label.texture.size
             )
+        popup = GameOverPopup()
+        popup.open()
 
     def store_score(self, player_name):
         print(f"Player: {player_name}, Score: {self.score}")
@@ -257,7 +256,7 @@ class Bullet(Entity):
                 self.stop_callbacks()
                 game.remove_entity(self)
                 e.stop_callbacks() 
-                game.remove_entity(self)
+                game.remove_entity(e)
                 game.score += 2  
                 return
 
@@ -346,12 +345,20 @@ class Coin(Entity):
 
             elif isinstance(e, Bullet) and e in game.colliding_entities(self):
                 game.add_entity(Explosion(self.pos))
-                self.stop_callbacks()
+                e.stop_callbacks()  
                 game.remove_entity(self)
                 game.remove_entity(e)
                 game.score += 2
                 return
 
+        step_size = self._speed * dt
+        new_x = self.pos[0]
+        new_y = self.pos[1] - step_size
+        self.pos = (new_x, new_y)
+
+        if self.pos[1] < -100:  #
+            self.stop_callbacks()
+            game.remove_entity(self)
         step_size = self._speed * dt
         new_x = self.pos[0]
         new_y = self.pos[1] - step_size
@@ -391,6 +398,59 @@ class Player(Entity):
 
         self.pos = (newx, newy)
 
+class GameOverPopup(Popup):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.title = 'Thanks for play'
+        self.size_hint = (None, None)
+        self.size = (800, 500)
+
+        self.content = BoxLayout(orientation='vertical', padding=10)
+        
+        self.label = Label(text="Enter your name:")
+        self.text_input_name = TextInput(multiline=False, size_hint=(0.5, 0.5), height=30, width=400)
+
+        self.label_rating = Label(text="Rate the game (1-5):")
+        self.text_input_rating = TextInput(input_type='number', multiline=False, size_hint=(0.5, 0.5), height=30, width=400)
+
+        self.label_like = Label(text="What do you like in this game:")
+        self.text_input_like = TextInput(multiline=True, size_hint=(0.5, 0.5), height=100, width=400)
+
+        # Larger OK button
+        self.ok_button = Button(text='OK', size_hint=(0.5, 0.5), height=60, width=200)
+        self.ok_button.bind(on_press=self.dismiss_with_data)
+
+        self.content.add_widget(self.label)
+        self.content.add_widget(self.text_input_name)
+        self.content.add_widget(self.label_rating)
+        self.content.add_widget(self.text_input_rating)
+        self.content.add_widget(self.label_like)
+        self.content.add_widget(self.text_input_like)
+        self.content.add_widget(self.ok_button)
+
+
+    def dismiss_with_data(self, instance):
+        player_name = self.text_input_name.text
+        if not player_name:
+            player_name = "Anonymous"
+
+        try:
+            rating = int(self.text_input_rating.text)
+            if 1 <= rating <= 5:
+                game.store_score(player_name)
+                feedback = self.text_input_like.text
+                print(f"Player: {player_name}, Score: {game.score}, Rating: {rating}, Feedback: {feedback}")
+                self.dismiss()
+            else:
+                # Show an error message for invalid rating
+                self.show_error_message("Invalid rating. Please enter a number between 1 and 5.")
+        except ValueError:
+            # Show an error message for invalid rating input
+            self.show_error_message("Invalid rating input. Please enter a number between 1 and 5.")
+
+    def show_error_message(self, message):
+        error_popup = Popup(title='Error', content=Label(text=message), size_hint=(None, None), size=(400, 200))
+        error_popup.open()
 
 game = GameWidget()
 game.player = Player()
