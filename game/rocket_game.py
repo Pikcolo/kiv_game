@@ -296,6 +296,32 @@ class Explosion(Entity):
 
 done = False
 
+class Coin(Entity):
+    def __init__(self, pos, speed=200):
+        super().__init__()
+        self._speed = speed
+        self.pos = pos
+        self.source = "img/coin.png"
+        game.bind(on_frame=self.move_step)
+
+    def stop_callbacks(self):
+        game.unbind(on_frame=self.move_step)
+
+    def move_step(self, sender, dt):
+        if self.pos[1] < 0:
+            self.stop_callbacks()
+            game.remove_entity(self)
+            return
+        for e in game.colliding_entities(self):
+            if e == game.player:
+                game.remove_entity(self)
+                game.score += 2  # เพิ่มคะแนนเมื่อยิงเหรียญได้
+                return
+
+        step_size = self._speed * dt
+        new_x = self.pos[0]
+        new_y = self.pos[1] - step_size
+        self.pos = (new_x, new_y)
 
 class Player(Entity):
     def __init__(self):
