@@ -60,8 +60,8 @@ class GameWidget(Widget):
 
         Clock.schedule_interval(self._on_frame, 0)
 
-        # self.sound = SoundLoader.load()
-        # self.sound.play()
+        self.sound = SoundLoader.load("sound/bg_song.mp3")
+        self.sound.play()
         Clock.schedule_interval(self.spawn_enemies, 5)
 
         Clock.schedule_interval(self._update_time, 1)
@@ -285,9 +285,9 @@ class Explosion(Entity):
     def __init__(self, pos):
         super().__init__()
         self.pos = pos
-        # sound = SoundLoader.load("")
+        sound = SoundLoader.load("sound/bomb.mp3")
         self.source = "img/explode.png"
-        # sound.play()
+        sound.play()
         Clock.schedule_once(self._remove_me, 0.1)
 
     def _remove_me(self, dt):
