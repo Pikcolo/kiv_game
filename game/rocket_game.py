@@ -403,7 +403,7 @@ class GameOverPopup(Popup):
         super().__init__(**kwargs)
         self.title = 'Thanks for play'
         self.size_hint = (None, None)
-        self.size = (800, 500)
+        self.size = (1000, 850)
 
         self.content = BoxLayout(orientation='vertical', padding=10)
         
@@ -412,11 +412,22 @@ class GameOverPopup(Popup):
 
         self.label_rating = Label(text="Rate the game (1-5):")
         self.text_input_rating = TextInput(input_type='number', multiline=False, size_hint=(0.5, 0.5), height=30, width=400)
+        
+        self.label_explosion_sound = Label(text="Score for explosion sound (1-10):")
+        self.text_input_explosion_sound = TextInput(input_type='number', multiline=False, size_hint=(0.5, 0.5), height=30, width=400)
+
+        self.label_bullet_sound = Label(text="Score for bullet sound (1-10):")
+        self.text_input_bullet_sound = TextInput(input_type='number', multiline=False, size_hint=(0.5, 0.5), height=30, width=400)
+
+        self.label_player_movement = Label(text="Score for player movement (1-10):")
+        self.text_input_player_movement = TextInput(input_type='number', multiline=False, size_hint=(0.5, 0.5), height=30, width=400)
+
+        self.label_game_difficulty = Label(text="Score for game difficulty (1-10):")
+        self.text_input_game_difficulty = TextInput(input_type='number', multiline=False, size_hint=(0.5, 0.5), height=30, width=400)
 
         self.label_like = Label(text="What do you like in this game:")
         self.text_input_like = TextInput(multiline=True, size_hint=(0.5, 0.5), height=100, width=400)
 
-        # Larger OK button
         self.ok_button = Button(text='OK', size_hint=(0.5, 0.5), height=60, width=200)
         self.ok_button.bind(on_press=self.dismiss_with_data)
 
@@ -424,6 +435,14 @@ class GameOverPopup(Popup):
         self.content.add_widget(self.text_input_name)
         self.content.add_widget(self.label_rating)
         self.content.add_widget(self.text_input_rating)
+        self.content.add_widget(self.label_explosion_sound)
+        self.content.add_widget(self.text_input_explosion_sound)
+        self.content.add_widget(self.label_bullet_sound)
+        self.content.add_widget(self.text_input_bullet_sound)
+        self.content.add_widget(self.label_player_movement)
+        self.content.add_widget(self.text_input_player_movement)
+        self.content.add_widget(self.label_game_difficulty)
+        self.content.add_widget(self.text_input_game_difficulty)
         self.content.add_widget(self.label_like)
         self.content.add_widget(self.text_input_like)
         self.content.add_widget(self.ok_button)
@@ -437,20 +456,20 @@ class GameOverPopup(Popup):
         try:
             rating = int(self.text_input_rating.text)
             if 1 <= rating <= 5:
+
+                explosion_sound_score = int(self.text_input_explosion_sound.text)
+                bullet_sound_score = int(self.text_input_bullet_sound.text)
+                player_movement_score = int(self.text_input_player_movement.text)
+                game_difficulty_score = int(self.text_input_game_difficulty.text)
+
                 game.store_score(player_name)
                 feedback = self.text_input_like.text
                 print(f"Player: {player_name}, Score: {game.score}, Rating: {rating}, Feedback: {feedback}")
                 self.dismiss()
             else:
-                # Show an error message for invalid rating
                 self.show_error_message("Invalid rating. Please enter a number between 1 and 5.")
         except ValueError:
-            # Show an error message for invalid rating input
             self.show_error_message("Invalid rating input. Please enter a number between 1 and 5.")
-
-    def show_error_message(self, message):
-        error_popup = Popup(title='Error', content=Label(text=message), size_hint=(None, None), size=(400, 200))
-        error_popup.open()
 
 game = GameWidget()
 game.player = Player()
