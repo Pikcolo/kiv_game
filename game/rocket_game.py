@@ -64,9 +64,11 @@ class GameWidget(Widget):
         self.sound.play()
 
         Clock.schedule_interval(self.spawn_enemies, 5)
-
+        
+        Clock.schedule_interval(self.spawn_coins, 10)
+        
         Clock.schedule_interval(self._update_time, 1)
-    
+        
     def _update_size(self, instance, value):
         self._score_instruction.pos = (0, self.height - 50)
         self._score_instruction.size = self._score_label.texture.size
@@ -82,10 +84,12 @@ class GameWidget(Widget):
             y = Window.height
             random_speed = random.randint(60, 100)
             self.add_entity(Enemy((random_x, y), random_speed))
-
+    
+    def spawn_coins(self, dt):    
+        for i in range(1):
             random_x = random.randint(0, Window.width - 100)
             y = Window.height
-            random_speed = random.randint(60, 100)
+            random_speed = random.randint(50, 70)
             self.add_entity(Coin((random_x, y)))
 
     def _on_frame(self, dt):
@@ -331,23 +335,22 @@ class Coin(Entity):
             self.stop_callbacks()
             game.remove_entity(self)
             return
-        
+
         for e in game.colliding_entities(self):
             if e == game.player:
                 game.add_entity(Explosion(self.pos))
                 self.stop_callbacks()
                 game.remove_entity(self)
-                game.score += 2  # เพิ่มคะแนนเมื่อยิงเหรียญได้
+                game.score += 2
                 return
 
             elif isinstance(e, Bullet) and e in game.colliding_entities(self):
                 game.add_entity(Explosion(self.pos))
                 self.stop_callbacks()
                 game.remove_entity(self)
-                game.remove_entity(e)  
-                game.score += 2  
+                game.remove_entity(e)
+                game.score += 2
                 return
-            
 
         step_size = self._speed * dt
         new_x = self.pos[0]
@@ -367,14 +370,12 @@ class Player(Entity):
         self._shoot_event.cancel()
 
     def shoot_step(self, dt):
-        # shoot
         if "spacebar" in game.keysPressed:
             x = self.pos[0]
             y = self.pos[1] + 50
             game.add_entity(Bullet((x, y)))
 
     def move_step(self, sender, dt):
-        # move
         step_size = 1000 * dt
         newx = self.pos[0]
         newy = self.pos[1]
