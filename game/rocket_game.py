@@ -39,6 +39,10 @@ class GameWidget(Widget):
         self._time_label.refresh()
         self._time_remaining = 60
         
+        self.how_to_play_label = CoreLabel(text="How to Play\n\nMove: A/D keys\nShoot: Spacebar\n",
+                font_size=25,)
+        self.how_to_play_label.refresh()
+        
         self.register_event_type("on_frame")
         
         with self.canvas:
@@ -50,6 +54,12 @@ class GameWidget(Widget):
             self._time_instruction = Rectangle(texture=self._time_label.texture, 
                     pos=(Window.width - 200, Window.height - 50), size=self._time_label.texture.size)
             
+            self.how_to_play_instruction = Rectangle(
+                texture=self.how_to_play_label.texture,
+                pos=((Window.width - self.how_to_play_label.texture.size[0]) / 2,(Window.height - self.how_to_play_label.texture.size[1] - 25))
+                , size=self.how_to_play_label.texture.size)
+
+
             self._end_game_instruction = Rectangle(pos=(0, 0), size=(0, 0))
 
         self.keysPressed = set()
@@ -69,11 +79,16 @@ class GameWidget(Widget):
     def _update_size(self, instance, value):
         self._score_instruction.pos = (0, self.height - 50)
         self._score_instruction.size = self._score_label.texture.size
+        
         self._background.pos = (0, 0)
         self._background.size = (self.width, self.height)  
         
         self._time_instruction.pos = (Window.width - 200, Window.height - 50)
         self._time_instruction.size = self._time_label.texture.size
+
+        self.how_to_play_instruction.pos = ((Window.width - self.how_to_play_label.texture.size[0]) / 2, 
+                                (Window.height - self.how_to_play_label.texture.size[1] - 25)) 
+        self.how_to_play_instruction.size = self.how_to_play_label.size
 
     def spawn_enemies(self, dt):
         for i in range(3):
