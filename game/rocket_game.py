@@ -11,6 +11,8 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import (
     NumericProperty, ReferenceListProperty, ObjectProperty
 )
+from kivy.uix.label import Label
+from kivy.uix.boxlayout import BoxLayout
 from kivy.core.audio import SoundLoader
 from kivy.uix.label import CoreLabel
 import random
@@ -20,6 +22,13 @@ class GameWidget(Widget):
         super().__init__(**kwargs)
 
         self.bind(size=self._update_size)
+        
+        self._end_game_label = Label(
+            text="",
+            font_size=50,
+            halign='center',
+            valign='middle'
+        )
 
         self._keyboard = Window.request_keyboard(self._on_keyboard_closed, self)
         self._keyboard.bind(on_key_down=self._on_key_down)
@@ -28,7 +37,11 @@ class GameWidget(Widget):
         self._score_label = CoreLabel(text="Score: 0",font_size=35)
         self._score_label.refresh()
         self._score = 0
-
+        
+        self._time_label = CoreLabel(text="Time: 01:00", font_size=35)
+        self._time_label.refresh()
+        self._time_remaining = 60
+        
         self.register_event_type("on_frame")
         
         with self.canvas:
@@ -36,6 +49,11 @@ class GameWidget(Widget):
                     size=(Window.width, Window.height))
             self._score_instruction = Rectangle(texture=self._score_label.texture, 
                     pos=(0, Window.height - 50), size=self._score_label.texture.size)
+            
+            self._time_instruction = Rectangle(texture=self._time_label.texture, 
+                    pos=(Window.width - 200, Window.height - 50), size=self._time_label.texture.size)
+            
+            self._end_game_instruction = Rectangle(pos=(0, 0), size=(0, 0))
 
         self.keysPressed = set()
         self._entities = set()
@@ -45,13 +63,17 @@ class GameWidget(Widget):
         # self.sound = SoundLoader.load()
         # self.sound.play()
         Clock.schedule_interval(self.spawn_enemies, 5)
+
+        Clock.schedule_interval(self._update_time, 1)
     
     def _update_size(self, instance, value):
         self._score_instruction.pos = (0, self.height - 50)
         self._score_instruction.size = self._score_label.texture.size
         self._background.pos = (0, 0)
         self._background.size = (self.width, self.height)  
-
+        
+        self._time_instruction.pos = (Window.width - 200, Window.height - 50)
+        self._time_instruction.size = self._time_label.texture.size
 
     def spawn_enemies(self, dt):
         for i in range(3):
@@ -65,6 +87,39 @@ class GameWidget(Widget):
 
     def on_frame(self, dt):
         pass
+
+    def _update_time(self, dt):
+        self._time_remaining -= 1
+        minutes = self._time_remaining // 60
+        seconds = self._time_remaining % 60
+        self._time_label.text = f"Time: {minutes:02d}:{seconds:02d}"
+        self._time_label.refresh()
+        self._time_instruction.texture = self._time_label.texture
+        self._time_instruction.size = self._time_label.texture.size
+
+        if self._time_remaining <= 0:
+            self._end_game()
+    
+    def _end_game(self):
+        Clock.unschedule(self._update_time)
+        message_label = CoreLabel(text=f"Time Out!\nScore: {self.score}", font_size=50)
+        message_label.refresh()
+
+        with self.canvas:
+            self.message_instruction = Rectangle(
+                texture=message_label.texture,
+                pos=(Window.width / 2 - message_label.texture.size[0] / 2,
+                    Window.height / 2 - message_label.texture.size[1] / 2),
+                size=message_label.texture.size
+            )
+
+    def store_score(self, player_name):
+        print(f"Player: {player_name}, Score: {self.score}")
+
+        Clock.schedule_once(self._exit_app, 3)  
+
+    def _exit_app(self, dt):
+        App.get_running_app().stop()
 
     @property
     def score(self):
@@ -276,6 +331,7 @@ class Player(Entity):
             newx = Window.width - self.size[0]
 
         self.pos = (newx, newy)
+
 
 game = GameWidget()
 game.player = Player()
