@@ -440,8 +440,11 @@ class GameOverPopup(Popup):
         self.label_game_difficulty = Label(text="Score for game difficulty (1-10):")
         self.text_input_game_difficulty = TextInput(input_type='number', multiline=False, size_hint=(0.5, 0.5), height=30, width=400)
 
-        self.label_like = Label(text="What do you like in this game:")
+        self.label_like = Label(text="What do you like in this game ?:")
         self.text_input_like = TextInput(multiline=True, size_hint=(0.5, 0.5), height=100, width=400)
+
+        self.label_suggest = Label(text="Do you have any suggestions ?:")
+        self.text_input_suggest = TextInput(multiline=True, size_hint=(0.5, 0.5), height=100, width=400)
 
         self.ok_button = Button(text='OK', size_hint=(0.5, 0.5), height=60, width=200)
         self.ok_button.bind(on_press=self.dismiss_with_data)
@@ -460,6 +463,8 @@ class GameOverPopup(Popup):
         self.content.add_widget(self.text_input_game_difficulty)
         self.content.add_widget(self.label_like)
         self.content.add_widget(self.text_input_like)
+        self.content.add_widget(self.label_suggest)
+        self.content.add_widget(self.text_input_suggest)
         self.content.add_widget(self.ok_button)
 
 
