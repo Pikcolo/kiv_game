@@ -98,8 +98,8 @@
         - The Enemy class inherits from the Entity class and defines the behavior of enemies, 
         such as speed,position, and image. It also has a stop_callback function that can be used to 
         stop the call to the move_step function.
-        In the move_step function, there is an additional condition for movement, which is that if 
-        the enemy moves and collides with the ground or the bottom edge of the window,
+        In the move_step function, there is an additional condition for movement, which is that 
+        if the enemy moves and collides with the ground or the bottom edge of the window,
         it will lose 1 point.
     
     - Class Explosion(Entity)
