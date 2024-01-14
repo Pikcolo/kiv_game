@@ -1,5 +1,3 @@
-<img width="599" alt="2" src="https://github.com/Pikcolo/kiv_game/assets/153786025/56a42d6c-2dbd-4371-ba22-308f9b99973d"># Rocket Game
-
 ## Description about code (การทำงานของโค้ด)
 
 ### Thai 
