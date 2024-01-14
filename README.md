@@ -27,53 +27,79 @@
 
 
     - Class Entity(Object)
-        - เป็น Class ที่กำหนดองค์ประกอบภสยในเกมทั้งขนาด ตำแหน่ง ซึ่งเป็น Class สำคัญเป็นส่วนที่ทำให้ Player สามารถใช้กระสุนยิงศัตรูหรือเหรียญเพื่อให้ได้คะแนน และการเกิดเอฟเฟคต่าง ๆ
+        
+        - เป็น Class ที่กำหนดองค์ประกอบภายในเกมทั้งขนาด ตำแหน่ง ซึ่งเป็น Class สำคัญเป็นส่วนที่ทำให้ Player 
+        สามารถใช้กระสุนยิงศัตรูหรือเหรียญเพื่อให้ได้คะแนน และการเกิดเอฟเฟคต่าง ๆ
 
     - Class Bullet(Entity)
-        - เป็น Class ที่สืบทอดมาจาก Entity ใช้กำหนดการทำงานของกระสุนทั้งความเร็ว ตำแหน่ง และรูป และมีฟังก์ชัน stop_callback ใช้หยุดการเรียกฟังก์ชันเคลื่อนที่อย่าง move_step ที่กำหนดการเคลื่อนที่ของกระสุนเพื่อให้จัดการการชนกับ enemy หรือ coin อย่างถ้ายิง enemy ได้ 1 แต้ม แต่ถ้ายิง coin จะได้ 2 แต้ม
+       
+        - เป็น Class ที่สืบทอดมาจาก Entity ใช้กำหนดการทำงานของกระสุนทั้งความเร็ว 
+        ตำแหน่ง และรูป และมีฟังก์ชัน stop_callback ใช้หยุดการเรียกฟังก์ชันเคลื่อนที่
+        อย่าง move_step ที่กำหนดการเคลื่อนที่ของกระสุนเพื่อให้จัดการการชนกับ 
+        enemy หรือ coin อย่างถ้ายิง enemy ได้ 1 แต้ม แต่ถ้ายิง coin จะได้ 2 แต้ม
 
     - Class Enemy(Entity)
+        
         - เป็น Class ที่สืบทอดมาจาก Enemy เช่นกัน ใช้กำหนดความเร็วในการเคลื่อนที่ ตำแหน่ง และความเร็ว ซึ่ง Class นี้
-        และมีฟังก์ชัน stop_callback ใช้หยุดการเรียกฟังก์ชัน และใน move_step มีการกำหนดเงื่อนไขในการเคลื่อนที่เพิ่มด้วย ซึ่งถ้าหากเคลื่อนที่ชนกับพื้นหรือขอบล่าง window จะเสียคะแนนไป 1 คะแนน
+        และมีฟังก์ชัน stop_callback ใช้หยุดการเรียกฟังก์ชัน และใน move_step มีการกำหนดเงื่อนไขในการเคลื่อนที่เพิ่มด้วย 
+        ซึ่งถ้าหากเคลื่อนที่ชนกับพื้นหรือขอบล่าง window จะเสียคะแนนไป 1 คะแนน
 
     - class Explosion(Entity)
-        - เป็น Class ที่สร้างองค์ประกอบการระเบิดขึ้นมา หลังเกิดการชนกันของ Object และจะมีฟังก์ชันในการลบตัว้องออกหลังจากการเกิดการชน
+        
+        - เป็น Class ที่สร้างองค์ประกอบการระเบิดขึ้นมา หลังเกิดการชนกันของ Object 
+        และจะมีฟังก์ชันในการลบตัว้องออกหลังจากการเกิดการชน
 
     - class Coin(Entity)
         - เป็น Class
 
 ### Eng
 
-    The code starts with the GameWidget() class, which is the part that makes the entire game work and arranges the various elements within the game properly. 
-    It has the following functions
+    The code starts with the GameWidget() class, which is the part that makes the entire game work and 
+    arranges the various elements within the game properly. It has the following functions
 
     - _update_size: A function that adjusts the size and position to fit the window.
     - spawn_enemies: Spawns enemies at random locations.
     - spawn_coins: Spawns coins at random locations.
     - on_frame: Sends the "on_frame" event, which is a function that can be overridden in subclasses.
     - update_time: Updates the remaining time in the game.
-    - end_game: Schedules the end of the game, displays a pop-up with the final score, and stops calling related functions.
+    - end_game: Schedules the end of the game, displays a pop-up with the final score, 
+    and stops calling related functions.
     - store_score: A system for storing the final score after time runs out.
     - exit_app: A function for scheduling the exit of the application.
     - score: A function that is a property to get and set the game score.
     - add_entity: Adds an entity to the game.
     - remove_entity: Used to remove an entity from the game from the ongoing game process.
     - collides, colliding_entities: Used to check for collisions between entities.
-    - on_keyboard_closed, on_key_down, on_key_up: Arranges the keyboard's operation for both pressing and releasing keys.
+    - on_keyboard_closed, on_key_down, on_key_up: Arranges the keyboard's operation 
+    for both pressing and releasing keys.
     - The GameWidget class will be linked to the remaining classes to allow the game to be played.
 
 
-    The GameWidget class is linked to the remaining classes to allow the game to be played. The following classes are related to the GameWidget class:
+    The GameWidget class is linked to the remaining classes to allow the game to be played. 
+    The following classes are related to the GameWidget class:
 
     - Class Entity(Object)
-        - This class defines the basic properties of all entities in the game, such as size and position. It is important because it allows the player to shoot bullets at enemies or coins to score points and trigger various effects.
+        
+        - This class defines the basic properties of all entities in the game, 
+        such as size and position. It is important because it allows 
+        the player to shoot bullets at enemies or coins to score points and trigger various effects.
 
     - Class Bullet(Entity)
-        - The Bullet class inherits from the Entity class and defines the behavior of bullets, such as speed, position, and image. It also has a stop_callback function that can be used to stop the call to the move_step function, which defines the movement of the bullet in order to handle collisions with enemies or coins. For example, if a bullet collides with an enemy, it will score 1 point, but if it collides with a coin, it will score 2 points.
+        
+        - The Bullet class inherits from the Entity class and defines the behavior of bullets, such as speed, 
+        position, and image. It also has a stop_callback function that can be used to stop the call to the move_step function, 
+        which defines the movement of the bullet in order to handle collisions with enemies or coins. For example,
+         if a bullet collides with an enemy, it will score 1 point, but if it collides with a coin, it will score 2 points.
 
     - Class Enemy(Entity)
-        - The Enemy class inherits from the Entity class and defines the behavior of enemies, such as speed, position, and image. It also has a stop_callback function that can be used to stop the call to the move_step function. In the move_step function, there is an additional condition for movement, which is that if the enemy moves and collides with the ground or the bottom edge of the window, it will lose 1 point.
+        
+        - The Enemy class inherits from the Entity class and defines the behavior of enemies, such as speed,
+         position, and image. It also has a stop_callback function that can be used to stop the call to the move_step function.
+          In the move_step function, there is an additional condition for movement, 
+          which is that if the enemy moves and collides with the ground or the bottom edge of the window, it will lose 1 point.
+    
     - Class Explosion(Entity)
 
-        - The Explosion class creates an explosion element after an object collision. It will also have a function to remove itself after the collision.
+        - The Explosion class creates an explosion element after an object collision. 
+        It will also have a function to remove itself after the collision.
             
