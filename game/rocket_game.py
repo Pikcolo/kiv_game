@@ -136,11 +136,10 @@ class GameWidget(Widget):
             )
         popup = GameOverPopup()
         popup.open()
+        Clock.schedule_once(self._exit_app, 40)  
 
     def store_score(self, player_name):
         print(f"Player: {player_name}, Score: {self.score}")
-
-        Clock.schedule_once(self._exit_app, 3)  
 
     def _exit_app(self, dt):
         App.get_running_app().stop()
