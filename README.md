@@ -30,8 +30,14 @@
         - เป็น Class ที่กำหนดองค์ประกอบภสยในเกมทั้งขนาด ตำแหน่ง ซึ่งเป็น Class สำคัญเป็นส่วนที่ทำให้ Player สามารถใช้กระสุนยิงศัตรูหรือเหรียญเพื่อให้ได้คะแนน และการเกิดเอฟเฟคต่าง ๆ
 
     - Class Bullet(Entity)
-        - เป็น Class ที่สืบทอดมาจาก Entity ใช้กำหนดการทำงานของกระสุนทั้งความเร็ว ตำแหน่ง และรูป และมีฟังก์ชัน stop_callback ใช้หยุดการเรียกฟังก์ชันเคลื่อนที่อย่าง move_step ที่กำหนดการเคลื่อนที่ของกระสุนเพื่อให้จัดการการชนกับ enemy หรือ coin
+        - เป็น Class ที่สืบทอดมาจาก Entity ใช้กำหนดการทำงานของกระสุนทั้งความเร็ว ตำแหน่ง และรูป และมีฟังก์ชัน stop_callback ใช้หยุดการเรียกฟังก์ชันเคลื่อนที่อย่าง move_step ที่กำหนดการเคลื่อนที่ของกระสุนเพื่อให้จัดการการชนกับ enemy หรือ coin อย่างถ้ายิง enemy ได้ 1 แต้ม แต่ถ้ายิง coin จะได้ 2 แต้ม
 
+    - Class Enemy(Entity)
+        - เป็น Class ที่สืบทอดมาจาก Enemy เช่นกัน ใช้กำหนดความเร็วในการเคลื่อนที่ ตำแหน่ง และความเร็ว ซึ่ง Class นี้
+        และมีฟังก์ชัน stop_callback ใช้หยุดการเรียกฟังก์ชัน และใน move_step มีการกำหนดเงื่อนไขในการเคลื่อนที่เพิ่มด้วย ซึ่งถ้าหากเคลื่นที่ชนกับพื้นหรือขอบล่าง window จะเสียคะแนนไป 1 คะแนน
+
+    - class Explosion(Entity)
+        - เป็น Class ที่สร้างองค์ประกอบการระเบิดขึ้นมา หลังเกิดการชนกันของ Object และจะมีฟังก์ชันในการลบตัว้องออกหลังจากการเกิดการชน
 
 
 - Eng
@@ -61,4 +67,11 @@
         - This class defines the basic properties of all entities in the game, such as size and position. It is important because it allows the player to shoot bullets at enemies or coins to score points and trigger various effects.
 
     - Class Bullet(Entity)
-        - This class inherits from the Entity class and defines the behavior of bullets, such as speed, position, and image. It also has a stop_callback function that can be used to stop the call to the move_step function, which defines the movement of the bullet in order to handle collisions with enemies or coins.
+        - The Bullet class inherits from the Entity class and defines the behavior of bullets, such as speed, position, and image. It also has a stop_callback function that can be used to stop the call to the move_step function, which defines the movement of the bullet in order to handle collisions with enemies or coins. For example, if a bullet collides with an enemy, it will score 1 point, but if it collides with a coin, it will score 2 points.
+
+    - Class Enemy(Entity)
+        - The Enemy class inherits from the Entity class and defines the behavior of enemies, such as speed, position, and image. It also has a stop_callback function that can be used to stop the call to the move_step function. In the move_step function, there is an additional condition for movement, which is that if the enemy moves and collides with the ground or the bottom edge of the window, it will lose 1 point.
+    - Class Explosion(Entity)
+
+        - The Explosion class creates an explosion element after an object collision. It will also have a function to remove itself after the collision.
+            
