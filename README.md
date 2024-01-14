@@ -2,7 +2,7 @@
 
 ## Description about code (การทำงานในโค้ด)
 
-การทำงานโค้ดนี้เริ่มจาก Class GameWidget() ซึ่งเป็นส่วนที่ให้เกมทั้งหมดสามารถทำงานได้ และการจัดองค์ประกอบต่าง ๆ
+การทำงานโค้ดนี้เริ่มจาก Class GameWidget(Widget) ซึ่งเป็นส่วนที่ให้เกมทั้งหมดสามารถทำงานได้ และการจัดองค์ประกอบต่าง ๆ
 ภายในเกมให้เหมาะสม โดยมี 
 
 - ฟังก์ชันที่ใช้ปรับขนาดและตำแหน่งให้เหมาะสมกับหน้าต่างอย่าง _update_size 
@@ -20,6 +20,14 @@
 - on_keyboard_closed, on_key_down, on_key_up: จัดการทำงานของแป้นพิมพ์ทั้งการกดและปล่อยปุ่ม
 
 ซึ่ง Class GameWidget จะมีความเชื่อมโยงกับ Class ที่เหลือต่อเพื่อให้เกมนี้สามารถเล่นได้
+โดย Class ที่มีส่วนเกียวข้องกับ Class Gamewidget ต่อ คือ
+
+- Class Entity(Object)
+    - เป็น Class ที่กำหนดองค์ประกอบภสยในเกมทั้งขนาด ตำแหน่ง ซึ่งเป็น Class สำคัญเป็นส่วนที่ทำให้ Player สามารถใช้กระสุนยิงศัตรูหรือเหรียญเพื่อให้ได้คะแนน และการเกิดเอฟเฟคต่าง ๆ
+
+- Class Bullet(Entity)
+    - เป็น Class ที่สืบทอดมาจาก Entity ใช้กำหนดการทำงานของกระสุนทั้งความเร็ว ตำแหน่ง และรูป และมีฟังก์ชัน stop_callback ใช้หยุดการเรียกฟังก์ชันเคลื่อนที่อย่าง move_step ที่กำหนดการเคลื่อนที่ของกระสุนเพื่อให้จัดการการชนกับ enemy หรือ coin
+
 
 The code starts with the GameWidget() class, which is the part that makes the entire game work and arranges the various elements within the game properly. 
 It has the following functions
