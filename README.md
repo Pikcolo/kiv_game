@@ -5,7 +5,7 @@
 ### Thai 
 
     การทำงานโค้ดนี้เริ่มจาก Class GameWidget(Widget) ซึ่งเป็นส่วนที่ให้เกมทั้งหมดสามารถทำงานได้ และ
-    การจัดองค์ประกอบต่าง ๆภายในเกมให้เหมาะสม โดยมี 
+    การจัดองค์ประกอบต่าง ๆ ภายในเกมให้เหมาะสม โดยมี 
 
     - ฟังก์ชันที่ใช้ปรับขนาดและตำแหน่งให้เหมาะสมกับหน้าต่างอย่าง _update_size 
     - spawn_enemies : สร้างศัตรูขึ้นมาโดยการสุ่มเกิด
@@ -21,6 +21,8 @@
     - collides, colliding_entities: ใช้ตรวจสอบการชนกันขององค์ประกอบ
     - on_keyboard_closed, on_key_down, on_key_up: จัดการทำงานของแป้นพิมพ์ทั้งการกดและปล่อยปุ่ม
 
+    นอกจากนี้ยังมีตัวแปรที่คอยกำหนดให้แสดงผลอย่างภาพพื้นหลัง 
+    ข้อความคะแนน, เวลา,วิธีการเล่น การอัพเดทขนาดและตำแหน่ง
 
     ซึ่ง Class GameWidget จะมีความเชื่อมโยงกับ Class ที่เหลือต่อเพื่อให้เกมนี้สามารถเล่นได้
     โดย Class ที่มีส่วนเกียวข้องกับ Class Gamewidget ต่อ คือ
@@ -47,10 +49,15 @@
     - class Explosion(Entity)
         
         - เป็น Class ที่สร้างองค์ประกอบการระเบิดขึ้นมา หลังเกิดการชนกันของ Object 
-        และจะมีฟังก์ชันในการลบตัว้องออกหลังจากการเกิดการชน
+        และจะมีฟังก์ชันในการลบตัวเองออกหลังจากการเกิดการชน
 
     - class Coin(Entity)
-        - เป็น Class
+        - เป็น Class ที่มีความคล้าย Class Enemy แต่จะต่างกันตรงที่รูปภาพ ความเร็วเคลื่อนที่ และเมื่อ coin 
+        ตกลงพื้นหรือขอบ window จะไม่เสียแต้มเหมือนกับ enemy
+
+    - class Player(Entity)
+        - เป็น Class ที่กำหนดผู้เล่นทั้งรูปภาพ ตำแหน่ง ความเร็วของกระสุนที่ยิงออกมา มีฟังก์ชัน move_step 
+        ใช้กำหนดปุ่มที่ใช้ในการควบคุมการเคลื่อนที่ของ player และ shoot_step ที่กำหนดปุ่มการยิงกระสุน
 
 ### Eng
 
@@ -74,9 +81,13 @@
     for both pressing and releasing keys.
     - The GameWidget class will be linked to the remaining classes to allow the game to be played.
 
+    In addition to the classes described above, there are also variables 
+    that are used to control the display of the game, such as the background image,
+    the score text, the time, the instructions, and the update of the size and position.
 
     The GameWidget class is linked to the remaining classes to allow the game to be played. 
     The following classes are related to the GameWidget class:
+
 
     - Class Entity(Object)
         
@@ -107,3 +118,16 @@
         - The Explosion class creates an explosion element after an object collision. 
         It will also have a function to remove itself after the collision.
             
+    
+    - Class Coin(Entity)
+
+        - The Coin class is similar to the Enemy class, but it differs in the image,
+        movement speed, and the fact that when a coin falls to the ground or the edge of the window,
+        it does not lose points like an enemy.
+
+    - Class Player(Entity)
+
+        - The Player class defines the player, including the image, position, and speed 
+        of the bullets fired.It has a move_step function that defines the buttons used to
+        control the player's movement and a shoot_step function that defines 
+        the button for shooting bullets.
