@@ -35,6 +35,7 @@
 
 
 - Eng
+
     The code starts with the GameWidget() class, which is the part that makes the entire game work and arranges the various elements within the game properly. 
     It has the following functions
 
