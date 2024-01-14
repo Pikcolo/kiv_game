@@ -82,21 +82,25 @@
         
         - This class defines the basic properties of all entities in the game, 
         such as size and position. It is important because it allows 
-        the player to shoot bullets at enemies or coins to score points and trigger various effects.
+    the player to shoot bullets at enemies or coins to score points and trigger various effects.
 
     - Class Bullet(Entity)
         
-        - The Bullet class inherits from the Entity class and defines the behavior of bullets, such as speed, 
-        position, and image. It also has a stop_callback function that can be used to stop the call to the move_step function, 
-        which defines the movement of the bullet in order to handle collisions with enemies or coins. For example,
-         if a bullet collides with an enemy, it will score 1 point, but if it collides with a coin, it will score 2 points.
+        - The Bullet class inherits from the Entity class and defines the behavior of bullets,
+        such as speed, position, and image. It also has a stop_callback function that can be used 
+        to stop the call to the move_step function, which defines the movement of the bullet in 
+        order to handle collisions with enemies or coins. For example,
+        if a bullet collides with an enemy, it will score 1 point, 
+        but if it collides with a coin, it will score 2 points.
 
     - Class Enemy(Entity)
         
-        - The Enemy class inherits from the Entity class and defines the behavior of enemies, such as speed,
-         position, and image. It also has a stop_callback function that can be used to stop the call to the move_step function.
-          In the move_step function, there is an additional condition for movement, 
-          which is that if the enemy moves and collides with the ground or the bottom edge of the window, it will lose 1 point.
+        - The Enemy class inherits from the Entity class and defines the behavior of enemies, 
+        such as speed,position, and image. It also has a stop_callback function that can be used to 
+        stop the call to the move_step function.
+        In the move_step function, there is an additional condition for movement, which is that if 
+        the enemy moves and collides with the ground or the bottom edge of the window,
+        it will lose 1 point.
     
     - Class Explosion(Entity)
 
