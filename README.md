@@ -177,10 +177,10 @@
 <img width="598" alt="1" src="https://github.com/Pikcolo/kiv_game/assets/153786025/395e36db-6baf-4443-9efd-13371d6c9095">
 <img width="597" alt="3" src="https://github.com/Pikcolo/kiv_game/assets/153786025/9d0b3c07-86a9-4393-927b-4fabc1c3a51b">
 <img width="599" alt="2" src="https://github.com/Pikcolo/kiv_game/assets/153786025/27cf4021-18fb-404f-b7f8-b3e16da46a1f">
-<img width="1280" alt="6" src="https://github.com/Pikcolo/kiv_game/assets/153786025/f0743372-7b69-4f74-835f-680034594ed7">
 <img width="601" alt="4" src="https://github.com/Pikcolo/kiv_game/assets/153786025/0b048c0d-86e8-461f-9385-90ac3477c14c">
 <img width="602" alt="5" src="https://github.com/Pikcolo/kiv_game/assets/153786025/172c7736-deb8-4ac5-bff0-c9abe8b707dc">
 <img width="598" alt="7" src="https://github.com/Pikcolo/kiv_game/assets/153786025/9fef476d-5b90-47db-bf33-41f662969bc7">
+<img width="1280" alt="6" src="https://github.com/Pikcolo/kiv_game/assets/153786025/f0743372-7b69-4f74-835f-680034594ed7">
 
 
 
