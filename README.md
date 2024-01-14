@@ -1,3 +1,7 @@
+## Creator
+> My name is Sirawich Noipa
+> student id: 6610110327
+
 ## Description about code (การทำงานของโค้ด)
 
 ### Thai 
