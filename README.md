@@ -2,7 +2,7 @@
 
 ## Description about code (การทำงานในโค้ด)
 
-- Thai 
+### Thai 
 
     การทำงานโค้ดนี้เริ่มจาก Class GameWidget(Widget) ซึ่งเป็นส่วนที่ให้เกมทั้งหมดสามารถทำงานได้ และ
     การจัดองค์ประกอบต่าง ๆภายในเกมให้เหมาะสม โดยมี 
@@ -34,13 +34,15 @@
 
     - Class Enemy(Entity)
         - เป็น Class ที่สืบทอดมาจาก Enemy เช่นกัน ใช้กำหนดความเร็วในการเคลื่อนที่ ตำแหน่ง และความเร็ว ซึ่ง Class นี้
-        และมีฟังก์ชัน stop_callback ใช้หยุดการเรียกฟังก์ชัน และใน move_step มีการกำหนดเงื่อนไขในการเคลื่อนที่เพิ่มด้วย ซึ่งถ้าหากเคลื่นที่ชนกับพื้นหรือขอบล่าง window จะเสียคะแนนไป 1 คะแนน
+        และมีฟังก์ชัน stop_callback ใช้หยุดการเรียกฟังก์ชัน และใน move_step มีการกำหนดเงื่อนไขในการเคลื่อนที่เพิ่มด้วย ซึ่งถ้าหากเคลื่อนที่ชนกับพื้นหรือขอบล่าง window จะเสียคะแนนไป 1 คะแนน
 
     - class Explosion(Entity)
         - เป็น Class ที่สร้างองค์ประกอบการระเบิดขึ้นมา หลังเกิดการชนกันของ Object และจะมีฟังก์ชันในการลบตัว้องออกหลังจากการเกิดการชน
 
+    - class Coin(Entity)
+        - เป็น Class
 
-- Eng
+### Eng
 
     The code starts with the GameWidget() class, which is the part that makes the entire game work and arranges the various elements within the game properly. 
     It has the following functions
