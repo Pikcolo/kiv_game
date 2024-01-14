@@ -428,16 +428,16 @@ class GameOverPopup(Popup):
         self.label_rating = Label(text="Rate the game (1-5):")
         self.text_input_rating = TextInput(input_type='number', multiline=False, size_hint=(0.5, 0.5), height=30, width=400)
         
-        self.label_explosion_sound = Label(text="Score for explosion sound (1-10):")
+        self.label_explosion_sound = Label(text="Score for explosion sound (1-5):")
         self.text_input_explosion_sound = TextInput(input_type='number', multiline=False, size_hint=(0.5, 0.5), height=30, width=400)
 
-        self.label_bullet_sound = Label(text="Score for bullet sound (1-10):")
+        self.label_bullet_sound = Label(text="Score for bullet sound (1-5):")
         self.text_input_bullet_sound = TextInput(input_type='number', multiline=False, size_hint=(0.5, 0.5), height=30, width=400)
 
-        self.label_player_movement = Label(text="Score for player movement (1-10):")
+        self.label_player_movement = Label(text="Score for player movement (1-5):")
         self.text_input_player_movement = TextInput(input_type='number', multiline=False, size_hint=(0.5, 0.5), height=30, width=400)
 
-        self.label_game_difficulty = Label(text="Score for game difficulty (1-10):")
+        self.label_game_difficulty = Label(text="Score for game difficulty (1-5):")
         self.text_input_game_difficulty = TextInput(input_type='number', multiline=False, size_hint=(0.5, 0.5), height=30, width=400)
 
         self.label_like = Label(text="What do you like in this game ?:")
@@ -476,20 +476,30 @@ class GameOverPopup(Popup):
         try:
             rating = int(self.text_input_rating.text)
             if 1 <= rating <= 5:
-
                 explosion_sound_score = int(self.text_input_explosion_sound.text)
                 bullet_sound_score = int(self.text_input_bullet_sound.text)
                 player_movement_score = int(self.text_input_player_movement.text)
                 game_difficulty_score = int(self.text_input_game_difficulty.text)
 
-                game.store_score(player_name)
                 feedback = self.text_input_like.text
-                print(f"Player: {player_name}, Score: {game.score}, Rating: {rating}, Feedback: {feedback}")
+                suggestions = self.text_input_suggest.text
+
+                print(f"Player: {player_name}, Score: {game.score}, Rating: {rating}, "
+                        f"Explosion Sound Score: {explosion_sound_score}, "
+                        f"Bullet Sound Score: {bullet_sound_score}, "
+                        f"Player Movement Score: {player_movement_score}, "
+                        f"Game Difficulty Score: {game_difficulty_score}, "
+                        f"Feedback: {feedback}, Suggestions: {suggestions}")
                 self.dismiss()
             else:
                 self.show_error_message("Invalid rating. Please enter a number between 1 and 5.")
         except ValueError:
             self.show_error_message("Invalid rating input. Please enter a number between 1 and 5.")
+
+    def show_error_message(self, message):
+        error_label = Label(text=message, color=(1, 0, 0, 1), font_size=16)
+        error_popup = Popup(title='Error', content=error_label, size_hint=(None, None), size=(400, 200))
+        error_popup.open()
 
 game = GameWidget()
 game.player = Player()
