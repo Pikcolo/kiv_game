@@ -19,14 +19,18 @@
 - collides, colliding_entities: ใช้ตรวจสอบการชนกันขององค์ประกอบ
 - on_keyboard_closed, on_key_down, on_key_up: จัดการทำงานของแป้นพิมพ์ทั้งการกดและปล่อยปุ่ม
 
+
 ซึ่ง Class GameWidget จะมีความเชื่อมโยงกับ Class ที่เหลือต่อเพื่อให้เกมนี้สามารถเล่นได้
 โดย Class ที่มีส่วนเกียวข้องกับ Class Gamewidget ต่อ คือ
+
 
 - Class Entity(Object)
     - เป็น Class ที่กำหนดองค์ประกอบภสยในเกมทั้งขนาด ตำแหน่ง ซึ่งเป็น Class สำคัญเป็นส่วนที่ทำให้ Player สามารถใช้กระสุนยิงศัตรูหรือเหรียญเพื่อให้ได้คะแนน และการเกิดเอฟเฟคต่าง ๆ
 
 - Class Bullet(Entity)
     - เป็น Class ที่สืบทอดมาจาก Entity ใช้กำหนดการทำงานของกระสุนทั้งความเร็ว ตำแหน่ง และรูป และมีฟังก์ชัน stop_callback ใช้หยุดการเรียกฟังก์ชันเคลื่อนที่อย่าง move_step ที่กำหนดการเคลื่อนที่ของกระสุนเพื่อให้จัดการการชนกับ enemy หรือ coin
+
+
 
 
 The code starts with the GameWidget() class, which is the part that makes the entire game work and arranges the various elements within the game properly. 
@@ -46,3 +50,12 @@ It has the following functions
 - collides, colliding_entities: Used to check for collisions between entities.
 - on_keyboard_closed, on_key_down, on_key_up: Arranges the keyboard's operation for both pressing and releasing keys.
 - The GameWidget class will be linked to the remaining classes to allow the game to be played.
+
+
+The GameWidget class is linked to the remaining classes to allow the game to be played. The following classes are related to the GameWidget class:
+
+- Class Entity(Object)
+    - This class defines the basic properties of all entities in the game, such as size and position. It is important because it allows the player to shoot bullets at enemies or coins to score points and trigger various effects.
+
+- Class Bullet(Entity)
+    - This class inherits from the Entity class and defines the behavior of bullets, such as speed, position, and image. It also has a stop_callback function that can be used to stop the call to the move_step function, which defines the movement of the bullet in order to handle collisions with enemies or coins.
