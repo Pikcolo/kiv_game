@@ -1,6 +1,6 @@
 # Rocket Game
 
-## Description about code (การทำงานในโค้ด)
+## Description about code (การทำงานของโค้ด)
 
 ### Thai 
 
@@ -46,18 +46,39 @@
         และมีฟังก์ชัน stop_callback ใช้หยุดการเรียกฟังก์ชัน และใน move_step มีการกำหนดเงื่อนไขในการเคลื่อนที่เพิ่มด้วย 
         ซึ่งถ้าหากเคลื่อนที่ชนกับพื้นหรือขอบล่าง window จะเสียคะแนนไป 1 คะแนน
 
-    - class Explosion(Entity)
+    - Class Explosion(Entity)
         
         - เป็น Class ที่สร้างองค์ประกอบการระเบิดขึ้นมา หลังเกิดการชนกันของ Object 
         และจะมีฟังก์ชันในการลบตัวเองออกหลังจากการเกิดการชน
 
-    - class Coin(Entity)
+    - Class Coin(Entity)
+        
         - เป็น Class ที่มีความคล้าย Class Enemy แต่จะต่างกันตรงที่รูปภาพ ความเร็วเคลื่อนที่ และเมื่อ coin 
         ตกลงพื้นหรือขอบ window จะไม่เสียแต้มเหมือนกับ enemy
 
-    - class Player(Entity)
+    - Class Player(Entity)
+        
         - เป็น Class ที่กำหนดผู้เล่นทั้งรูปภาพ ตำแหน่ง ความเร็วของกระสุนที่ยิงออกมา มีฟังก์ชัน move_step 
         ใช้กำหนดปุ่มที่ใช้ในการควบคุมการเคลื่อนที่ของ player และ shoot_step ที่กำหนดปุ่มการยิงกระสุน
+
+    - Class GameOverPopup(Popup):
+        
+        - เป็น Class ที่กำหนดการ popup ขึ้นมาหลังจากเวลาหมดโดยให้ popup 
+        ขึ้นมาเพื่อให้ผู่เล่นสามารถกรอกข้อมูลหลังเล่นเกมจบก็จะมีให้กรอกชื่อ และการให้คะแนนตามข้อความที่ถาม 
+        และเป็นคำถาม feedback เกี่ยวกับเกมและในส่วนคำถามที่ให้กรอกคะแนน ก็จะต้องกรอกเลขตามที่มีในคำถาม
+        ไม่เช่นนั้น ก็จะมีข้อความเตือนออกมาว่าเป็นข้อมูลที่ผิดซึ่งจะต้องกรอกข้อมูลใหม่ซึ่งเป็นตัวเลข 
+        โดยจะมีฟังก์ชัน dismiss_with_data และ show_error_message เป็นตัวจัดการข้อผิดพลาด
+
+    
+    และภายใน code จะมี
+
+    game = GameWidget()
+    game.player = Player()
+    game.player.pos = (Window.width - Window.width/1.75, 0)
+    game.add_entity(game.player)
+
+    เป็นตัวกำหนดทำให้ตัวเกมสามารถเล่นได้ ซึ่งถ้าหาไม่มีตัวแปรนี้ก็จะทำให้เกมไม่สามารถเล่นได้ เนื่องจาใน code ส่วนนี้
+    มีความเกี่ยวข้องกับในหลาย ๆ Class และจะต้องใช้ในการ return ค่า ใน Class RocketApp(App) ภายใน ฟังก์ชัน build
 
 ### Eng
 
@@ -131,3 +152,25 @@
         of the bullets fired.It has a move_step function that defines the buttons used to
         control the player's movement and a shoot_step function that defines 
         the button for shooting bullets.
+
+    - Class GameOverPopup(Popup)
+
+        - The GameOverPopup class defines a popup that appears after the time runs out.
+        The popup allows the player to enter information after the game is over,
+        such as their name, a rating for the game, and feedback about the game.
+        The rating question must be answered with a number. If the player enters a non-numeric value,
+        an error message will be displayed. The dismiss_with_data and 
+        show_error_message functions are used to handle errors.
+
+    And in the code, there will be
+
+    game = GameWidget()
+    game.player = Player()
+    game.player.pos = (Window.width - Window.width/1.75, 0)
+    game.add_entity(game.player)
+
+    These variables are essential for the game to function properly.
+    They are used to initialize the game and to add the player to the game world.
+    Without these variables, the game would not be able to play. Additionally,
+    these variables are used in several classes and must be returned
+    in the RocketApp(App) class within the build function.
