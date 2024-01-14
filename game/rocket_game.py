@@ -136,7 +136,7 @@ class GameWidget(Widget):
             )
         popup = GameOverPopup()
         popup.open()
-        Clock.schedule_once(self._exit_app, 40)  
+        Clock.schedule_once(self._exit_app, 0)  
 
     def store_score(self, player_name):
         print(f"Player: {player_name}, Score: {self.score}")
@@ -370,7 +370,7 @@ class Coin(Entity):
         new_y = self.pos[1] - step_size
         self.pos = (new_x, new_y)
 
-        if self.pos[1] < -100:  #
+        if self.pos[1] < -100:  
             self.stop_callbacks()
             game.remove_entity(self)
         step_size = self._speed * dt
