@@ -174,3 +174,6 @@
     Without these variables, the game would not be able to play. Additionally,
     these variables are used in several classes and must be returned
     in the RocketApp(App) class within the build function.
+
+## Running results (ผลการรัน)
+
