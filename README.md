@@ -182,6 +182,16 @@
 <img width="598" alt="7" src="https://github.com/Pikcolo/kiv_game/assets/153786025/9fef476d-5b90-47db-bf33-41f662969bc7">
 <img width="1280" alt="6" src="https://github.com/Pikcolo/kiv_game/assets/153786025/f0743372-7b69-4f74-835f-680034594ed7">
 
+## Overview (ภาพรวม)
+
+- Thai
+    - ภาพรวมโปรแกรมนี้เป็น App ของเกมจรวดเพื่อยิงศัตรูเพื่อให้ได้แต้มภายในเวลาที่กำหนด มีเป้าหมายเพื่อคลายเครียดและเล่นเพื่อเอาสนุก เมื่อหลังจากเล่นจบก็จะมีให้กรอกชื่อและใส่ feedback และเมื่อเวลาผ่านไป 40 วินาที หลังจากเล่นจบตัวเกมก็จะปิดไปเองอัตโนมัติ
+
+- Eng
+    - The program is an app for a rocket shooting game. The player shoots enemies to score points within a set time.
+    The goal of the game is to relieve stress and have fun. After the game is over, the player is prompted to enter their name and feedback.
+    After 40 seconds, the game will automatically close.
+
 
 
 
